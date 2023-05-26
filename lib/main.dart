@@ -95,7 +95,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   const SizedBox(height: 20.0),
-                  Image.network(memeData['url']),
+
+                  InteractiveViewer(child:Image.network(memeData['url']), ),
+                  //Image.network(memeData['url']),
+
                   const SizedBox(height: 10.0),
                   Text('Author: ${memeData['author']}',
                       style: const TextStyle(
@@ -105,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ElevatedButton(
+              
               onPressed: fetchRandomMeme,
               child: const Text('More Content Plis'),
             ),
