@@ -14,11 +14,13 @@ import 'dart:convert';
 //   }
 // }
 
+
 class APIService {
   Future<dynamic> fetchRandomMeme() async {
     final response = await http.get(Uri.parse('https://meme-api.com/gimme'));
     if (response.statusCode == 200) {
       final decodedResponse = json.decode(response.body);
+
       // Extract the required fields from the API response
       final title = decodedResponse['title'];
       final url = decodedResponse['url'];

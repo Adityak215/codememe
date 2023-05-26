@@ -79,9 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: ListView(
-          //mainAxisAlignment: MainAxisAlignment.center,
-          shrinkWrap: true,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (memeData != null)
               Column(
