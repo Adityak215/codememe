@@ -19,8 +19,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrangeAccent)
-            .copyWith(background: Colors.black),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrangeAccent).copyWith(background: Colors.black),
       ),
       home: const MyHomePage(title: 'Get your Random Reddit MEMES'),
     );
@@ -81,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: ListView(
           //mainAxisAlignment: MainAxisAlignment.center,
+          padding: const EdgeInsets.all(10),
           shrinkWrap: true,
           children: [
             if (memeData != null)
@@ -108,7 +108,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ElevatedButton(
-              
+              style: ElevatedButton.styleFrom(
+                  side: BorderSide(width:4, color:Theme.of(context).colorScheme.primary,), //border width and color
+                  elevation: 5, //elevation of button
+                  padding: const EdgeInsets.all(15)
+                ),
               onPressed: fetchRandomMeme,
               child: const Text('More Content Plis'),
             ),
