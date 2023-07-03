@@ -37,6 +37,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   dynamic_color: ^1.6.5
   http: ^0.13.6
+  flutter_downloader: ^1.7.0
+  image_gallery_saver: '^2.0.1'
+  gallery_saver: ^2.3.2
+  dio: ^5.1.2
+  path_provider: ^2.0.15
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'api_service.dart';
+import 'downbadmf.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Mainscreen extends StatefulWidget {
   const Mainscreen({super.key, required this.title});
@@ -37,6 +41,8 @@ class _Mainscreenstate extends State<Mainscreen> {
     super.initState();
     fetchRandomMeme();
   }
+
+late String imagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -95,18 +101,105 @@ class _Mainscreenstate extends State<Mainscreen> {
           ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          fetchRandomMeme();
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+floatingActionButton: Row(
+  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  children: [
+
+        FloatingActionButton.extended(
+      onPressed: () {
+        fetchRandomMeme();
+      },
+      label: const Text('Next Meme plis'),
+      elevation: 2,
+      hoverColor: Theme.of(context).colorScheme.onPrimary,
+      tooltip: 'Next Meme hehe',
+      icon: const Icon(Icons.arrow_forward_outlined),
+    ),
+
+
+       FloatingActionButton(
+        onPressed: () async {
+          String imageUrl = memeData['url'];
+          downloadImage(imageUrl).then((taskId) {
+            FlutterDownloader.registerCallback((id, status, _) {
+              if (taskId == id && status == DownloadTaskStatus.complete.value) {
+                // Once the download is complete, get the file path
+                
+                FlutterDownloader.open(taskId: taskId!).then((path) {
+                  setState(() {
+                    imagePath = path.toString();
+                  });
+                });
+              }
+            });
+            final snackBar = SnackBar(
+              content: const Text('Image downloaded'),
+              action: SnackBarAction(
+                label: 'Undo',
+                onPressed: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                },
+              ),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          });
         },
-        label: const Text('Next Meme plis'),
-        elevation: 2,
-        hoverColor: Theme.of(context).colorScheme.onPrimary,
-        tooltip: 'Next Meme hehe',
-        icon: const Icon(Icons.arrow_forward_outlined),
-        //enableFeedback: await HapticFeedback.lightImpact(),
+        child: const Icon(Icons.downloading_outlined),
       ),
+    
+  ],
+),
+
     );
   }
 }
+
+
+
+
+// floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+//       floatingActionButton: FloatingActionButton.extended(
+//         onPressed: () {
+//           fetchRandomMeme();
+//         },
+//         label: const Text('Next Meme plis'),
+//         elevation: 2,
+//         hoverColor: Theme.of(context).colorScheme.onPrimary,
+//         tooltip: 'Next Meme hehe',
+//         icon: const Icon(Icons.arrow_forward_outlined),
+//         //enableFeedback: await HapticFeedback.lightImpact(),
+//       ),
+//       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+//       floatingActionButton: FloatingActionButton(
+//         //label: Text('Save'), for FloatingActionButton.extended
+//         onPressed: () async {
+//           String imageUrl = (memeData['url']);
+//                   downloadImage(imageUrl).then((taskId) {
+//                     FlutterDownloader.registerCallback((id, status, _) {
+//                 if (taskId == id && status == DownloadTaskStatus.complete.value) {
+//                   // Once the download is complete, get the file path
+//                   FlutterDownloader.open(taskId: taskId!).then((path) {
+//                     setState(() {
+//                       imagePath = path.toString();
+//                     });
+//                   });
+//                 }
+//               });
+//             final snackBar = SnackBar(
+//               content: const Text('Image downloaded'),
+//               action: SnackBarAction(
+//                 label: 'Undo',
+//                 onPressed: () {
+//                   ScaffoldMessenger.of(context).hideCurrentSnackBar();
+//                 },
+//               ),
+//             );
+//             // Find the ScaffoldMessenger in the widget tree
+//             // and use it to show a SnackBar.
+//             ScaffoldMessenger.of(context).showSnackBar(snackBar);
+//             //print('Image downloaded with taskId: $taskId');
+//           });
+//         },
+//         child: const Icon(Icons.downloading_outlined),
+//       ),
