@@ -7,9 +7,9 @@ import 'home.dart';
 import 'downbadmf.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await FlutterDownloader.initialize(debug: true);
-  await Permission.storage.request();
+  //WidgetsFlutterBinding.ensureInitialized();
+  //await FlutterDownloader.initialize(debug: true);
+  //await Permission.storage.request();
   runApp(const MyApp());
 }
 

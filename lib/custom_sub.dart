@@ -79,7 +79,7 @@ class _Customscreenstate extends State<Customscreen> {
                       style: const TextStyle(
                         color: Colors.white,
                       )),
-                  const SizedBox(height: 20.0),
+                  const SizedBox(height: 40.0),
                 ],
               ),
             // ElevatedButton(

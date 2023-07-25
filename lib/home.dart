@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'downbadmf.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class Mainscreen extends StatefulWidget {
   const Mainscreen({super.key, required this.title});
@@ -101,10 +98,10 @@ late String imagePath;
           ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-floatingActionButton: Row(
-  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  children: [
+    floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    floatingActionButton: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
 
         FloatingActionButton.extended(
       onPressed: () {
@@ -115,39 +112,7 @@ floatingActionButton: Row(
       hoverColor: Theme.of(context).colorScheme.onPrimary,
       tooltip: 'Next Meme hehe',
       icon: const Icon(Icons.arrow_forward_outlined),
-    ),
-
-
-       FloatingActionButton(
-        onPressed: () async {
-          String imageUrl = memeData['url'];
-          downloadImage(imageUrl).then((taskId) {
-            FlutterDownloader.registerCallback((id, status, _) {
-              if (taskId == id && status == DownloadTaskStatus.complete.value) {
-                // Once the download is complete, get the file path
-                
-                FlutterDownloader.open(taskId: taskId!).then((path) {
-                  setState(() {
-                    imagePath = path.toString();
-                  });
-                });
-              }
-            });
-            final snackBar = SnackBar(
-              content: const Text('Image downloaded'),
-              action: SnackBarAction(
-                label: 'Undo',
-                onPressed: () {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                },
-              ),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          });
-        },
-        child: const Icon(Icons.downloading_outlined),
-      ),
-    
+    ),    
   ],
 ),
 
