@@ -4,8 +4,12 @@ import 'entersubred.dart';
 import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'home.dart';
+import 'downbadmf.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterDownloader.initialize(debug: true);
+  await Permission.storage.request();
   runApp(const MyApp());
 }
 
@@ -46,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int _selectedIndex = 0;
 
- void _onItemTapped(int index) {
+  void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
@@ -56,17 +60,13 @@ class _MyHomePageState extends State<MyHomePage> {
       //TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static const List<Widget> _widgetOptions = <Widget>[
-
     Mainscreen(title: 'Home: All sorts of Memes'),
-
     Dankscreen(title: 'Dank memes Around here'),
-
     Hindiscreen(title: 'Indian Dank MEMES Madarchod'),
-
     Enterscreen(),
+
   ];
-
-
+  
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
+
       // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       // floatingActionButton: FloatingActionButton(
       //   onPressed: ,
@@ -81,7 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.shifting,
-
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -99,7 +99,6 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.find_in_page_rounded),
             label: 'Custom Sub',
           ),
-          
         ],
         selectedItemColor: Theme.of(context).colorScheme.inversePrimary,
         onTap: (index) {
