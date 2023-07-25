@@ -63,3 +63,25 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+
+
+
+ElevatedButton(
+    onPressed: () async {
+      options = DownloaderUtils(
+          progressCallback: (current, total) {
+              final progress = (current / total) * 100;
+              print('Downloading: $progress');
+          },
+          file: File('$path/loremipsum.pdf'),
+          progress: ProgressImplementation(),
+          onDone: () {
+              OpenFile.open('$path/loremipsum.pdf');
+          },
+          deleteOnCancel: true,
+      );
+    core = await Flowder.download(
+             "https://assets.website-files.com/603d0d2db8ec32ba7d44fffe/603d0e327eb2748c8ab1053f_loremipsum.pdf",
+             options,
+           );
+},

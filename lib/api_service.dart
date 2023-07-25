@@ -14,7 +14,6 @@ import 'dart:convert';
 //   }
 // }
 
-
 class APIService {
   Future<dynamic> fetchRandomMeme() async {
     final response = await http.get(Uri.parse('https://meme-api.com/gimme'));
@@ -25,23 +24,23 @@ class APIService {
       final title = decodedResponse['title'];
       final url = decodedResponse['url'];
       final author = decodedResponse['author'];
-      
+
       // Create a map to return the required fields
       final memeData = {
         'title': title,
         'url': url,
         'author': author,
       };
-      
+
       return memeData;
     } else {
       throw Exception('Failed to load meme');
     }
   }
 
-
   Future<dynamic> fetchHindiMeme() async {
-    final response = await http.get(Uri.parse('https://meme-api.com/gimme/IndianDankMemes'));
+    final response =
+        await http.get(Uri.parse('https://meme-api.com/gimme/IndianDankMemes'));
     if (response.statusCode == 200) {
       final decodedResponse = json.decode(response.body);
 
@@ -49,14 +48,14 @@ class APIService {
       final title = decodedResponse['title'];
       final url = decodedResponse['url'];
       final author = decodedResponse['author'];
-      
+
       // Create a map to return the required fields
       final memeData = {
         'title': title,
         'url': url,
         'author': author,
       };
-      
+
       return memeData;
     } else {
       throw Exception('Failed to load meme');
@@ -64,7 +63,8 @@ class APIService {
   }
 
   Future<dynamic> fetchDankMeme() async {
-    final response = await http.get(Uri.parse('https://meme-api.com/gimme/Memes_Of_The_Dank'));
+    final response = await http
+        .get(Uri.parse('https://meme-api.com/gimme/Memes_Of_The_Dank'));
     if (response.statusCode == 200) {
       final decodedResponse = json.decode(response.body);
 
@@ -72,19 +72,41 @@ class APIService {
       final title = decodedResponse['title'];
       final url = decodedResponse['url'];
       final author = decodedResponse['author'];
-      
+
       // Create a map to return the required fields
       final memeData = {
         'title': title,
         'url': url,
         'author': author,
       };
-      
+
       return memeData;
     } else {
       throw Exception('Failed to load meme');
     }
   }
 
+  Future<dynamic> fetchCustomMeme(String cust) async {
+    final response =
+        await http.get(Uri.parse('https://meme-api.com/gimme/$cust'));
+    if (response.statusCode == 200) {
+      final decodedResponse = json.decode(response.body);
 
+      // Extract the required fields from the API response
+      final title = decodedResponse['title'];
+      final url = decodedResponse['url'];
+      final author = decodedResponse['author'];
+
+      // Create a map to return the required fields
+      final memeData = {
+        'title': title,
+        'url': url,
+        'author': author,
+      };
+
+      return memeData;
+    } else {
+      throw Exception('Failed to load meme');
+    }
+  }
 }
