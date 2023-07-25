@@ -1,7 +1,7 @@
 import 'package:codememe/dank.dart';
 import 'package:codememe/hindi.dart';
+import 'entersubred.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'api_service.dart';
 import 'home.dart';
 
@@ -52,8 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  //static const TextStyle optionStyle =
+      //TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static const List<Widget> _widgetOptions = <Widget>[
 
@@ -63,10 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     Hindiscreen(title: 'Indian Dank MEMES Madarchod'),
 
-    Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
+    Enterscreen(),
   ];
 
 
@@ -77,7 +74,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: ,
+      //   child: const Icon(Icons.download)),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.shifting,
