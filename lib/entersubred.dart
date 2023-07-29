@@ -1,5 +1,7 @@
+import 'easteregg.dart';
 import 'package:flutter/material.dart';
 import 'custom_sub.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Enterscreen extends StatefulWidget {
   const Enterscreen({super.key});
@@ -11,17 +13,101 @@ class Enterscreen extends StatefulWidget {
 class _Enterscreenstate extends State<Enterscreen> {
 
   final cust= TextEditingController();
+  bool egg=false;
+  int _counter = 0;
+
+  final _control=PageController(
+    initialPage: 0,
+  );
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+  @override
+  void initState(){
+    super.initState();
+    egg=false;
+  }
+  @override
+  void dispose() {
+    _control.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    // if(_counter>18)
+    // {
+    //   return PageView(
+    //     controller: _control,
+    //     scrollDirection: Axis.vertical,
+    //     children: const [
+    //       Enterscreen(),
+    //       Easterscreen(title: 'Congratulations, Enjoy you Slut'),
+    //     ],
+    //   );
+    // }
     return Scaffold(
       appBar: AppBar(
-        titleTextStyle: const TextStyle(
-            fontSize: 20.0,
-            //fontWeight: FontWeight.bold,
-            color: Colors.white),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text('Enter Meme Subreddit'),
+          title: Row(
+            //crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const Text('Enter Meme Subreddit'),
+              const Spacer(),
+              TextButton(
+                onPressed: (){
+                  _incrementCounter();
+                  if(_counter<6)
+                  {Fluttertoast.showToast(
+                    msg: '$_counter',
+                    toastLength: Toast.LENGTH_SHORT,
+                  );
+                  }
+                  else if(_counter>=6&&_counter<10)
+                  {
+                    Fluttertoast.showToast(
+                      msg: 'What are you trying huh?',
+                      toastLength: Toast.LENGTH_SHORT,
+                      );
+                  }
+                  else if(_counter>=10&&_counter<14)
+                  {
+                    Fluttertoast.showToast(
+                      msg: 'Ugh, fine you found a button, Move on!',
+                      toastLength: Toast.LENGTH_SHORT,
+                      );
+                  }
+                  else if(_counter>=14&&_counter<18)
+                  {
+                    Fluttertoast.showToast(
+                      msg: 'Um, Why are you not looking at Memes?',
+                      toastLength: Toast.LENGTH_SHORT,
+                      );
+                  }
+                  else if(_counter>=18&&_counter<20)
+                  {
+                    Fluttertoast.showToast(
+                      msg: 'Good now SmartAss?',
+                      toastLength: Toast.LENGTH_SHORT,
+                      );
+                  }
+                  else
+                  {
+                    Fluttertoast.showToast(msg: 'ALRIGHT NOW CHILL WITH THE CLICKS',
+                    toastLength: Toast.LENGTH_SHORT,
+                    );
+                  }
+                },
+                child: const Text(''))
+            ]),
+          titleTextStyle: const TextStyle(
+          fontSize: 20.0,
+          //fontWeight: FontWeight.bold,
+          color: Colors.white),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+        // title: const Text('Enter Meme Subreddit'),
       ),
 
       body: Center(
@@ -72,12 +158,27 @@ class _Enterscreenstate extends State<Enterscreen> {
           },
         ),
               ),
-            
-          ]
-        )
-      )
 
-    );
+            Visibility(
+                visible: _counter>18,
+                child: TextButton(
+                  onPressed: () {
+                  Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) => const Easterscreen(
+                              title: 'Have Fun you Horny Slut',
+                            )),
+                        );
+                      },
+                  child: const Text('Alright You brat'),
+                  )
+
+              ),
+            ]
+          )
+        )
+
+      );
   }
 }
 

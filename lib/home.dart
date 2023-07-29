@@ -102,7 +102,6 @@ late String imagePath;
     floatingActionButton: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-
         FloatingActionButton.extended(
       onPressed: () {
         fetchRandomMeme();
@@ -113,6 +112,15 @@ late String imagePath;
       tooltip: 'Next Meme hehe',
       icon: const Icon(Icons.arrow_forward_outlined),
     ),    
+
+    FloatingActionButton(
+      onPressed: (){
+          
+      },
+      elevation: 2,
+      hoverColor: Theme.of(context).colorScheme.onPrimary,
+      child: const Icon(Icons.downloading_rounded),
+      )
   ],
 ),
 
