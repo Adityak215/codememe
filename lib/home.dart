@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'downbadmf.dart';
+import 'rick.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Mainscreen extends StatefulWidget {
   const Mainscreen({super.key, required this.title});
@@ -39,7 +41,16 @@ class _Mainscreenstate extends State<Mainscreen> {
     fetchRandomMeme();
   }
 
-late String imagePath;
+  int _counter=0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +61,54 @@ late String imagePath;
             //fontWeight: FontWeight.bold,
             color: Colors.white),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text(widget.title),
+        title: Row(
+          children: <Widget>[
+            Visibility(
+              visible: _counter<10,
+              child: Text(widget.title)
+              ),
+            Visibility(
+              visible: _counter>=10,
+              child: const Text('Alright!! you found it.')
+              ),
+            const Spacer(),
+            Visibility(
+              visible: _counter<10,
+              child: TextButton(
+                onPressed: (){
+                  _incrementCounter();
+                  if(_counter<5)
+                  {
+                    Fluttertoast.showToast(
+                    msg: 'What are you doing?',
+                    toastLength: Toast.LENGTH_SHORT,
+                  );
+                  }
+                  else if(_counter>=5&&_counter<10)
+                  {
+                    Fluttertoast.showToast(
+                    msg: 'Bruh there is nothing there!',
+                    toastLength: Toast.LENGTH_SHORT,
+                    );
+                  }
+                },
+                child: const Text(''),
+              )
+            ),
+            Visibility(
+              visible: _counter>=10,
+              child: TextButton(
+                onPressed: (){
+                  Navigator.push(context, 
+                    MaterialPageRoute(builder: (context) => const Rick()
+                      )
+                  );
+                },
+                child: const Text('-_-'),
+                ),
+              ),
+          ],
+        )
       ),
       body: Center(
         child: ListView(
@@ -113,14 +171,14 @@ late String imagePath;
       icon: const Icon(Icons.arrow_forward_outlined),
     ),    
 
-    FloatingActionButton(
-      onPressed: (){
+    // FloatingActionButton(
+    //   onPressed: (){
           
-      },
-      elevation: 2,
-      hoverColor: Theme.of(context).colorScheme.onPrimary,
-      child: const Icon(Icons.downloading_rounded),
-      )
+    //   },
+    //   elevation: 2,
+    //   hoverColor: Theme.of(context).colorScheme.onPrimary,
+    //   child: const Icon(Icons.downloading_rounded),
+    //   )
   ],
 ),
 
