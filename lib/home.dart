@@ -3,6 +3,7 @@ import 'api_service.dart';
 import 'downbadmf.dart';
 import 'rick.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Mainscreen extends StatefulWidget {
   const Mainscreen({super.key, required this.title});
@@ -16,6 +17,8 @@ class Mainscreen extends StatefulWidget {
 class _Mainscreenstate extends State<Mainscreen> {
   final APIService apiService = APIService();
   dynamic memeData;
+  dynamic prevdata;
+  dynamic currdata;
 
   void fetchRandomMeme() {
     apiService.fetchRandomMeme().then((data) {
@@ -49,7 +52,18 @@ class _Mainscreenstate extends State<Mainscreen> {
     });
   }
 
+  void prevmeme()
+  {
+    setState(() {
+      currdata=memeData;
+      memeData=prevdata;
+    });
+  }
 
+  void _sharememe()
+  {
+    Share.share(memeData['url']);
+  }
 
 
   @override
@@ -139,7 +153,7 @@ class _Mainscreenstate extends State<Mainscreen> {
                       style: const TextStyle(
                         color: Colors.white,
                       )),
-                  const SizedBox(height: 20.0),
+                  const SizedBox(height: 60.0),
                 ],
               ),
             // ElevatedButton(
@@ -160,19 +174,37 @@ class _Mainscreenstate extends State<Mainscreen> {
     floatingActionButton: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        FloatingActionButton.extended(
+        FloatingActionButton(
       onPressed: () {
-        fetchRandomMeme();
+        prevmeme();
       },
-      heroTag: 'nxt',
-      label: const Text('Next Meme plis'),
+      heroTag: 'prv',
       elevation: 2,
       hoverColor: Theme.of(context).colorScheme.onPrimary,
-      tooltip: 'Next Meme hehe',
-      icon: const Icon(Icons.arrow_forward_outlined),
-    ),    
+      child: const Icon(Icons.arrow_back_outlined),
+      ),    
 
-    FloatingActionButton(
+        FloatingActionButton(
+      onPressed: () {
+        if(memeData==prevdata)
+        {
+          setState(() {
+            memeData=currdata;
+          });
+        }
+        else
+        {
+        prevdata=memeData;
+        fetchRandomMeme();
+        }
+      },
+      heroTag: 'nxt',
+      elevation: 2,
+      hoverColor: Theme.of(context).colorScheme.onPrimary,
+      child: const Icon(Icons.arrow_forward_outlined),
+      ),    
+
+      FloatingActionButton(
       onPressed: (){
           //download functionality
       },
@@ -180,7 +212,17 @@ class _Mainscreenstate extends State<Mainscreen> {
       elevation: 2,
       hoverColor: Theme.of(context).colorScheme.onPrimary,
       child: const Icon(Icons.downloading_rounded),
-      )
+        ),
+      FloatingActionButton(
+            onPressed: (){
+          _sharememe();
+      },
+      heroTag: 'shr',
+      elevation: 2,
+      hoverColor: Theme.of(context).colorScheme.onPrimary,
+      child: const Icon(Icons.share),
+      ),
+    
     ],
   ),
 

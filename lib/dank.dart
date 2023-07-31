@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'api_service.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Dankscreen extends StatefulWidget {
   const Dankscreen({super.key, required this.title});
@@ -13,6 +14,8 @@ class Dankscreen extends StatefulWidget {
 class _Dankscreenstate extends State<Dankscreen> {
   final APIService apiService = APIService();
   dynamic memeData;
+  dynamic prevdata;
+  dynamic currdata;
 
   void fetchDankMeme() {
     apiService.fetchDankMeme().then((data) {
@@ -37,6 +40,20 @@ class _Dankscreenstate extends State<Dankscreen> {
     super.initState();
     fetchDankMeme();
   }
+
+  void prevmeme()
+  {
+    setState(() {
+      currdata=memeData;
+      memeData=prevdata;
+    });
+  }
+
+  void _sharememe()
+  {
+    Share.share(memeData['url']);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +95,7 @@ class _Dankscreenstate extends State<Dankscreen> {
                       style: const TextStyle(
                         color: Colors.white,
                       )),
-                  const SizedBox(height: 20.0),
+                  const SizedBox(height: 60.0),
                 ],
               ),
             // ElevatedButton(
@@ -99,17 +116,35 @@ class _Dankscreenstate extends State<Dankscreen> {
     floatingActionButton: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        FloatingActionButton.extended(
+        FloatingActionButton(
       onPressed: () {
-        fetchDankMeme();
+        prevmeme();
       },
-      heroTag: 'nxt',
-      label: const Text('More Dankness Plis'),
+      heroTag: 'prv',
       elevation: 2,
       hoverColor: Theme.of(context).colorScheme.onPrimary,
-      tooltip: 'Next Meme hehe',
-      icon: const Icon(Icons.arrow_forward_outlined),
-    ),    
+      child: const Icon(Icons.arrow_back_outlined),
+      ),    
+
+        FloatingActionButton(
+      onPressed: () {
+        if(memeData==prevdata)
+        {
+          setState(() {
+            memeData=currdata;
+          });
+        }
+        else
+        {
+        prevdata=memeData;
+        fetchDankMeme();
+        }
+      },
+      heroTag: 'nxt',
+      elevation: 2,
+      hoverColor: Theme.of(context).colorScheme.onPrimary,
+      child: const Icon(Icons.arrow_forward_outlined),
+      ),    
 
     FloatingActionButton(
       onPressed: (){
@@ -119,7 +154,16 @@ class _Dankscreenstate extends State<Dankscreen> {
       elevation: 2,
       hoverColor: Theme.of(context).colorScheme.onPrimary,
       child: const Icon(Icons.downloading_rounded),
-      )
+      ),
+      FloatingActionButton(
+            onPressed: (){
+          _sharememe();
+      },
+      heroTag: 'shr',
+      elevation: 2,
+      hoverColor: Theme.of(context).colorScheme.onPrimary,
+      child: const Icon(Icons.share),
+      ),
     ],
   ),
     );
