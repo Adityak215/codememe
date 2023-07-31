@@ -128,7 +128,7 @@ class _Hindiscreenstate extends State<Hindiscreen> {
 
         FloatingActionButton(
       onPressed: () {
-        if(memeData==prevdata)
+        if(memeData==prevdata&&memeData!=currdata)
         {
           setState(() {
             memeData=currdata;

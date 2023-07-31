@@ -128,7 +128,7 @@ class _Easterscreenstate extends State<Easterscreen> {
 
         FloatingActionButton(
       onPressed: () {
-        if(memeData==prevdata)
+        if(memeData==prevdata&&memeData!=currdata)
         {
           setState(() {
             memeData=currdata;

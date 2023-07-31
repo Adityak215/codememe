@@ -128,7 +128,7 @@ class _Dankscreenstate extends State<Dankscreen> {
 
         FloatingActionButton(
       onPressed: () {
-        if(memeData==prevdata)
+        if(memeData==prevdata&&memeData!=currdata)
         {
           setState(() {
             memeData=currdata;
