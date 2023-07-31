@@ -96,17 +96,32 @@ class _Hindiscreenstate extends State<Hindiscreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          fetchHindiMeme();
-        },
-        label: const Text('Agla Bhencho'),
-        elevation: 2,
-        hoverColor: Theme.of(context).colorScheme.onPrimary,
-        tooltip: 'Next Meme hehe',
-        icon: const Icon(Icons.arrow_forward_outlined),
-        //enableFeedback: await HapticFeedback.lightImpact(),
-      ),
+    floatingActionButton: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        FloatingActionButton.extended(
+      onPressed: () {
+        fetchHindiMeme();
+      },
+      heroTag: 'nxt',
+      label: const Text('Agla Agla Agla re'),
+      elevation: 2,
+      hoverColor: Theme.of(context).colorScheme.onPrimary,
+      tooltip: 'Next Meme hehe',
+      icon: const Icon(Icons.arrow_forward_outlined),
+    ),    
+
+    FloatingActionButton(
+      onPressed: (){
+          //download functionality
+      },
+      heroTag: 'dld',
+      elevation: 2,
+      hoverColor: Theme.of(context).colorScheme.onPrimary,
+      child: const Icon(Icons.downloading_rounded),
+      )
+    ],
+  ),
     );
   }
 }

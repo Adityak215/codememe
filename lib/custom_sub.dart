@@ -97,17 +97,32 @@ class _Customscreenstate extends State<Customscreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          fetchCustomMeme();
-        },
-        label: const Text('More from this Sub'),
-        elevation: 2,
-        hoverColor: Theme.of(context).colorScheme.onPrimary,
-        tooltip: 'Next Meme hehe',
-        icon: const Icon(Icons.arrow_forward_outlined),
-        //enableFeedback: await HapticFeedback.lightImpact(),
-      ),
+    floatingActionButton: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        FloatingActionButton.extended(
+      onPressed: () {
+        fetchCustomMeme();
+      },
+      heroTag: 'nxt',
+      label: const Text('More from this Sub'),
+      elevation: 2,
+      hoverColor: Theme.of(context).colorScheme.onPrimary,
+      tooltip: 'Next Meme hehe',
+      icon: const Icon(Icons.arrow_forward_outlined),
+    ),    
+
+    FloatingActionButton(
+      onPressed: (){
+          //download functionality
+      },
+      heroTag: 'dld',
+      elevation: 2,
+      hoverColor: Theme.of(context).colorScheme.onPrimary,
+      child: const Icon(Icons.downloading_rounded),
+      )
+    ],
+  ),
     );
   }
 }

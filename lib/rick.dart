@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class Rick extends StatefulWidget{
   const Rick({super.key});
@@ -11,32 +11,20 @@ class Rick extends StatefulWidget{
 
 class _Rickstate extends State<Rick>
 {
-
-  late VideoPlayerController controller;
+   late YoutubePlayerController _controller;
   
   @override
   void initState() {
-    loadVideoPlayer();
     super.initState();
+    _controller = YoutubePlayerController(
+    initialVideoId: 'dQw4w9WgXcQ',
+    flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+      ),
+    );
   }
 
-  loadVideoPlayer(){
-     controller = VideoPlayerController.asset('assets/rick.mp4');
-     controller.addListener(() {
-        setState(() {});
-     });
-
-    controller.initialize().then((value){
-        setState(() {});
-    });
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-    controller.play();
-  });
-
-  }
-
-  
 
   @override
   Widget build(BuildContext context)
@@ -54,47 +42,19 @@ class _Rickstate extends State<Rick>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            AspectRatio( 
-                    aspectRatio: controller.value.aspectRatio,
-                     child: VideoPlayer(controller),
-                  ),
+                    YoutubePlayer(
+                        controller: _controller,
+                        showVideoProgressIndicator: true,
+                        progressIndicatorColor: Colors.amber,
+                        progressColors: const ProgressBarColors(
+                          playedColor: Colors.deepOrange,
+                          handleColor: Colors.deepOrangeAccent,
+                        ),
 
-                  Text(
-                    "Total Duration: ${controller.value.duration}",
-                    style: const TextStyle(
-                      color: Colors.deepOrange,
+                        onReady: () {
+                          _controller.addListener(() {});
+                        },
                       ),
-                    ),
-
-                  VideoProgressIndicator(
-                    controller, 
-                    allowScrubbing: true,
-                    colors:const VideoProgressColors(
-                        backgroundColor: Colors.white,
-                        playedColor: Colors.redAccent,
-                        bufferedColor: Colors.grey,
-                    )
-                  ),
-
-                Row(
-                  
-                  children: [
-                            IconButton(
-                                onPressed: (){
-                                  if(controller.value.isPlaying){
-                                    controller.pause();
-                                  }else{
-                                    controller.play();
-                                  }
-
-                                  setState(() {
-                                    
-                                  });
-                                }, 
-                                icon:Icon(controller.value.isPlaying?Icons.pause:Icons.play_arrow)
-                           ),
-                         ],
-                ),
 
               const Text('Never Gonna Give You Up',
               style: TextStyle(

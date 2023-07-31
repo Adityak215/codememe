@@ -16,7 +16,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,13 +56,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  //static const TextStyle optionStyle =
-      //TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static const List<Widget> _widgetOptions = <Widget>[
     Mainscreen(title: 'Home: All sorts of Memes'),
     Dankscreen(title: 'Dank memes Around here'),
-    Hindiscreen(title: 'Indian Dank MEMES Madarchod'),
+    Hindiscreen(title: 'Indian Dank MEMES Hindi'),
     Enterscreen(),
 
   ];
@@ -75,10 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
 
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: ,
-      //   child: const Icon(Icons.download)),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.shifting,

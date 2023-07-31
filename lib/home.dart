@@ -164,6 +164,7 @@ class _Mainscreenstate extends State<Mainscreen> {
       onPressed: () {
         fetchRandomMeme();
       },
+      heroTag: 'nxt',
       label: const Text('Next Meme plis'),
       elevation: 2,
       hoverColor: Theme.of(context).colorScheme.onPrimary,
@@ -171,16 +172,17 @@ class _Mainscreenstate extends State<Mainscreen> {
       icon: const Icon(Icons.arrow_forward_outlined),
     ),    
 
-    // FloatingActionButton(
-    //   onPressed: (){
-          
-    //   },
-    //   elevation: 2,
-    //   hoverColor: Theme.of(context).colorScheme.onPrimary,
-    //   child: const Icon(Icons.downloading_rounded),
-    //   )
-  ],
-),
+    FloatingActionButton(
+      onPressed: (){
+          //download functionality
+      },
+      heroTag: 'dld',
+      elevation: 2,
+      hoverColor: Theme.of(context).colorScheme.onPrimary,
+      child: const Icon(Icons.downloading_rounded),
+      )
+    ],
+  ),
 
     );
   }
