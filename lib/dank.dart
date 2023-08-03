@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'package:share_plus/share_plus.dart';
+import 'downbadmf.dart';
 
 class Dankscreen extends StatefulWidget {
   const Dankscreen({super.key, required this.title});
@@ -148,7 +149,7 @@ class _Dankscreenstate extends State<Dankscreen> {
 
     FloatingActionButton(
       onPressed: (){
-          //download functionality
+          downloadFile(memeData['url'], memeData['author']);
       },
       heroTag: 'dld',
       elevation: 2,

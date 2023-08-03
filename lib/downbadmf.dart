@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -37,17 +39,16 @@ Future<void> downloadFile(String url, String fileName) async {
           return '.';
         }
       }
-    // Get the downloads directory path
-    Directory? downloadsDirectory = await getExternalStorageDirectory();
-    String? downloadsPath = downloadsDirectory?.path;
+    // Get the external directory path
+    Directory? extDirectory = await getExternalStorageDirectory();
+    String? OriginPath = extDirectory?.path;
 
-    // Create a folder inside the downloads directory with the name of the app
-    String appName = 'Axolotl'; // Replace with your app's name
-    String customDirectory = '$downloadsPath/$appName';
-    Directory(customDirectory).createSync();
+
+    String DownDirectory = DownloadsDir(OriginPath);
+    Directory(DownDirectory).createSync();
     String ext = getFileExtension(url);
     // Create the file path inside the custom directory
-    String filePath = '$customDirectory/$fileName$ext';
+    String filePath = '$DownDirectory/$fileName$ext';
 
     // Create a http.Response object
     http.Response response = await http.get(Uri.parse(url));
@@ -60,4 +61,22 @@ Future<void> downloadFile(String url, String fileName) async {
   } catch (e) {
     print('Error while downloading file: $e');
   }
+}
+
+
+String DownloadsDir(String? dirpath )
+{
+  String DownPath='';
+  List<String>? paths = dirpath?.split("/");
+          for (int x = 1; x < paths!.length; x++) {
+            String folder = paths[x];
+            if (folder != "Android") {
+              DownPath += "/$folder";
+            } else {
+              break;
+            }
+          }
+          DownPath = "$DownPath/Download/Axolotl";
+          return DownPath;
+          //directory = Directory(DownPath);
 }

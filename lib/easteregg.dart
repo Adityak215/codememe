@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'package:share_plus/share_plus.dart';
+import 'downbadmf.dart';
 
 class Easterscreen extends StatefulWidget {
   const Easterscreen({super.key, required this.title});
@@ -148,7 +149,7 @@ class _Easterscreenstate extends State<Easterscreen> {
 
     FloatingActionButton(
       onPressed: (){
-          //download functionality
+          downloadFile(memeData['url'], memeData['author']);
       },
       heroTag: 'dld',
       elevation: 2,

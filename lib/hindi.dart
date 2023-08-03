@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'package:share_plus/share_plus.dart';
+import 'downbadmf.dart';
 
 class Hindiscreen extends StatefulWidget {
   const Hindiscreen({super.key, required this.title});
@@ -148,7 +149,7 @@ class _Hindiscreenstate extends State<Hindiscreen> {
 
     FloatingActionButton(
       onPressed: (){
-          //download functionality
+          downloadFile(memeData['url'], memeData['author']);
       },
       heroTag: 'dld',
       elevation: 2,

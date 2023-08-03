@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'package:share_plus/share_plus.dart';
+import 'downbadmf.dart';
 
 class Customscreen extends StatefulWidget {
   const Customscreen({super.key, required this.title, required this.cust});
@@ -149,7 +150,7 @@ class _Customscreenstate extends State<Customscreen> {
 
     FloatingActionButton(
       onPressed: (){
-          //download functionality
+          downloadFile(memeData['url'], memeData['author']);
       },
       heroTag: 'dld',
       elevation: 2,
