@@ -4,6 +4,8 @@ import 'downbadmf.dart';
 import 'rick.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
+//import 'dowloadinterface.dart';
+
 
 class Mainscreen extends StatefulWidget {
   const Mainscreen({super.key, required this.title});
@@ -206,7 +208,7 @@ class _Mainscreenstate extends State<Mainscreen> {
 
       FloatingActionButton(
       onPressed: (){
-          //download functionality
+          downloadFile(memeData['url'], memeData['author']);
       },
       heroTag: 'dld',
       elevation: 2,

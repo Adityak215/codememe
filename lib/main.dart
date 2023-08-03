@@ -4,12 +4,12 @@ import 'entersubred.dart';
 import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'home.dart';
-import 'downbadmf.dart';
 
 void main() async {
   //WidgetsFlutterBinding.ensureInitialized();
   //await FlutterDownloader.initialize(debug: true);
   //await Permission.storage.request();
+
   runApp(const MyApp());
 }
 

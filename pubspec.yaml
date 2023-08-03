@@ -45,6 +45,8 @@ dependencies:
   video_player: ^2.7.0
   youtube_player_flutter: ^8.1.2
   share_plus: ^7.0.2
+  html: ^0.15.4
+  permission_handler_platform_interface: ^3.11.3
 
 
 dev_dependencies:
