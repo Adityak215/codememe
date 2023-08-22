@@ -1,9 +1,13 @@
-import 'package:codememe/dank.dart';
-import 'package:codememe/hindi.dart';
+import 'package:codememe/Provider/myproviders.dart';
+import 'package:provider/provider.dart';
+
+import 'dank.dart';
+import 'hindi.dart';
 import 'entersubred.dart';
 import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'home.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() async {
   //WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +23,13 @@ class MyApp extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+        providers:[
+          ChangeNotifierProvider(create: (_)=> Countprovider()),
+          ChangeNotifierProvider(create: (_)=> Indexprovider()),
+          ChangeNotifierProvider(create: (_)=> Memeprovider())
+        ],
+      child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Reddit Meme',
       theme: ThemeData(
@@ -31,6 +41,7 @@ class MyApp extends StatelessWidget {
             .copyWith(background: Colors.black),
       ),
       home: const MyHomePage(title: 'Get your Random Reddit MEMES'),
+      )
     );
   }
 }
@@ -48,13 +59,13 @@ class _MyHomePageState extends State<MyHomePage> {
   final APIService apiService = APIService();
   dynamic memeData;
 
-  int _selectedIndex = 0;
+  // int _selectedIndex = 0;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _selectedIndex = index;
+  //   });
+  // }
 
 
   static const List<Widget> _widgetOptions = <Widget>[
@@ -68,13 +79,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final indexprovider= Provider.of<Indexprovider>(context, listen:false); 
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _widgetOptions.elementAt(indexprovider.selectedindex),
       ),
 
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
+        currentIndex: indexprovider.selectedindex,
         type: BottomNavigationBarType.shifting,
         items: const [
           BottomNavigationBarItem(
@@ -96,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         selectedItemColor: Theme.of(context).colorScheme.inversePrimary,
         onTap: (index) {
-          _onItemTapped(index);
+          indexprovider.setindex(index);
         },
       ),
     );

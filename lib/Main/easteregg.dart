@@ -2,24 +2,25 @@ import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'package:share_plus/share_plus.dart';
 import 'downbadmf.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class Dankscreen extends StatefulWidget {
-  const Dankscreen({super.key, required this.title});
+class Easterscreen extends StatefulWidget {
+  const Easterscreen({super.key, required this.title});
 
   final String title;
 
   @override
-  State<StatefulWidget> createState() => _Dankscreenstate();
+  State<StatefulWidget> createState() => _Easterscreenstate();
 }
 
-class _Dankscreenstate extends State<Dankscreen> {
+class _Easterscreenstate extends State<Easterscreen> {
   final APIService apiService = APIService();
   dynamic memeData;
   dynamic prevdata;
   dynamic currdata;
 
-  void fetchDankMeme() {
-    apiService.fetchDankMeme().then((data) {
+  void fetcheasterMeme() {
+    apiService.fetcheasterMeme().then((data) {
       setState(() {
         memeData = data;
       });
@@ -39,7 +40,7 @@ class _Dankscreenstate extends State<Dankscreen> {
   @override
   void initState() {
     super.initState();
-    fetchDankMeme();
+    fetcheasterMeme();
   }
 
   void prevmeme()
@@ -138,7 +139,7 @@ class _Dankscreenstate extends State<Dankscreen> {
         else
         {
         prevdata=memeData;
-        fetchDankMeme();
+        fetcheasterMeme();
         }
       },
       heroTag: 'nxt',
@@ -150,6 +151,10 @@ class _Dankscreenstate extends State<Dankscreen> {
     FloatingActionButton(
       onPressed: (){
           downloadFile(memeData['url'], memeData['author']);
+          Fluttertoast.showToast(
+                msg: 'File Downloading',
+                toastLength: Toast.LENGTH_SHORT,
+          );
       },
       heroTag: 'dld',
       elevation: 2,

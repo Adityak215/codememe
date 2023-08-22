@@ -2,24 +2,26 @@ import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'package:share_plus/share_plus.dart';
 import 'downbadmf.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class Easterscreen extends StatefulWidget {
-  const Easterscreen({super.key, required this.title});
+class Customscreen extends StatefulWidget {
+  const Customscreen({super.key, required this.title, required this.cust});
 
   final String title;
+  final String cust;
 
   @override
-  State<StatefulWidget> createState() => _Easterscreenstate();
+  State<StatefulWidget> createState() => _Customscreenstate();
 }
 
-class _Easterscreenstate extends State<Easterscreen> {
+class _Customscreenstate extends State<Customscreen> {
   final APIService apiService = APIService();
   dynamic memeData;
   dynamic prevdata;
   dynamic currdata;
 
-  void fetcheasterMeme() {
-    apiService.fetcheasterMeme().then((data) {
+  void fetchCustomMeme() {
+    apiService.fetchCustomMeme(widget.cust).then((data) {
       setState(() {
         memeData = data;
       });
@@ -39,7 +41,7 @@ class _Easterscreenstate extends State<Easterscreen> {
   @override
   void initState() {
     super.initState();
-    fetcheasterMeme();
+    fetchCustomMeme();
   }
 
   void prevmeme()
@@ -138,7 +140,7 @@ class _Easterscreenstate extends State<Easterscreen> {
         else
         {
         prevdata=memeData;
-        fetcheasterMeme();
+        fetchCustomMeme();
         }
       },
       heroTag: 'nxt',
@@ -150,6 +152,10 @@ class _Easterscreenstate extends State<Easterscreen> {
     FloatingActionButton(
       onPressed: (){
           downloadFile(memeData['url'], memeData['author']);
+          Fluttertoast.showToast(
+                msg: 'File Downloading',
+                toastLength: Toast.LENGTH_SHORT,
+          );
       },
       heroTag: 'dld',
       elevation: 2,

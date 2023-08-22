@@ -11,7 +11,7 @@ Future<void> downloadFile(String url, String fileName) async {
     // Request permissions explicitly before file download
     var status = await Permission.manageExternalStorage.request();
     if (status.isGranted) {
-      print('Error: Storage permission granted.');
+      print('Rejoice Storage permission granted.');
     }
     else if(status.isPermanentlyDenied)
     {

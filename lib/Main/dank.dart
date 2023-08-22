@@ -2,24 +2,25 @@ import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'package:share_plus/share_plus.dart';
 import 'downbadmf.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class Hindiscreen extends StatefulWidget {
-  const Hindiscreen({super.key, required this.title});
+class Dankscreen extends StatefulWidget {
+  const Dankscreen({super.key, required this.title});
 
   final String title;
 
   @override
-  State<StatefulWidget> createState() => _Hindiscreenstate();
+  State<StatefulWidget> createState() => _Dankscreenstate();
 }
 
-class _Hindiscreenstate extends State<Hindiscreen> {
+class _Dankscreenstate extends State<Dankscreen> {
   final APIService apiService = APIService();
   dynamic memeData;
   dynamic prevdata;
   dynamic currdata;
 
-  void fetchHindiMeme() {
-    apiService.fetchHindiMeme().then((data) {
+  void fetchDankMeme() {
+    apiService.fetchDankMeme().then((data) {
       setState(() {
         memeData = data;
       });
@@ -39,7 +40,7 @@ class _Hindiscreenstate extends State<Hindiscreen> {
   @override
   void initState() {
     super.initState();
-    fetchHindiMeme();
+    fetchDankMeme();
   }
 
   void prevmeme()
@@ -138,7 +139,7 @@ class _Hindiscreenstate extends State<Hindiscreen> {
         else
         {
         prevdata=memeData;
-        fetchHindiMeme();
+        fetchDankMeme();
         }
       },
       heroTag: 'nxt',
@@ -150,6 +151,10 @@ class _Hindiscreenstate extends State<Hindiscreen> {
     FloatingActionButton(
       onPressed: (){
           downloadFile(memeData['url'], memeData['author']);
+          Fluttertoast.showToast(
+                msg: 'File Downloading',
+                toastLength: Toast.LENGTH_SHORT,
+          );
       },
       heroTag: 'dld',
       elevation: 2,

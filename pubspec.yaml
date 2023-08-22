@@ -46,6 +46,8 @@ dependencies:
   share_plus: ^7.0.2
   html: ^0.15.4
   permission_handler_platform_interface: ^3.11.3
+  provider: ^6.0.5
+  riverpod: ^2.3.7
 
 
 dev_dependencies:

@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'package:share_plus/share_plus.dart';
 import 'downbadmf.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class Customscreen extends StatefulWidget {
-  const Customscreen({super.key, required this.title, required this.cust});
+class Hindiscreen extends StatefulWidget {
+  const Hindiscreen({super.key, required this.title});
 
   final String title;
-  final String cust;
 
   @override
-  State<StatefulWidget> createState() => _Customscreenstate();
+  State<StatefulWidget> createState() => _Hindiscreenstate();
 }
 
-class _Customscreenstate extends State<Customscreen> {
+class _Hindiscreenstate extends State<Hindiscreen> {
   final APIService apiService = APIService();
   dynamic memeData;
   dynamic prevdata;
   dynamic currdata;
 
-  void fetchCustomMeme() {
-    apiService.fetchCustomMeme(widget.cust).then((data) {
+  void fetchHindiMeme() {
+    apiService.fetchHindiMeme().then((data) {
       setState(() {
         memeData = data;
       });
@@ -40,7 +40,7 @@ class _Customscreenstate extends State<Customscreen> {
   @override
   void initState() {
     super.initState();
-    fetchCustomMeme();
+    fetchHindiMeme();
   }
 
   void prevmeme()
@@ -139,7 +139,7 @@ class _Customscreenstate extends State<Customscreen> {
         else
         {
         prevdata=memeData;
-        fetchCustomMeme();
+        fetchHindiMeme();
         }
       },
       heroTag: 'nxt',
@@ -151,6 +151,10 @@ class _Customscreenstate extends State<Customscreen> {
     FloatingActionButton(
       onPressed: (){
           downloadFile(memeData['url'], memeData['author']);
+          Fluttertoast.showToast(
+                msg: 'File Downloading',
+                toastLength: Toast.LENGTH_SHORT,
+          );
       },
       heroTag: 'dld',
       elevation: 2,
