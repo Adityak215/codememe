@@ -1,9 +1,9 @@
 import 'package:provider/provider.dart';
-import 'dank.dart';
-import 'hindi.dart';
-import 'entersubred.dart';
+import 'Mains/dank.dart';
+import 'Mains/hindi.dart';
+import 'Mains/entersubred.dart';
 import 'package:flutter/material.dart';
-import 'home.dart';
+import 'Mains/home.dart';
 import 'package:codememe/Providers/myproviders.dart';
 import 'package:codememe/Providers/randompro.dart';
 import 'package:codememe/Providers/hindipro.dart';
