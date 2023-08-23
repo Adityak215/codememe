@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'api_service.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'downbadmf.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:codememe/Providers/dankpro.dart';
+
 
 class Dankscreen extends StatefulWidget {
   const Dankscreen({super.key, required this.title});
@@ -14,51 +16,18 @@ class Dankscreen extends StatefulWidget {
 }
 
 class _Dankscreenstate extends State<Dankscreen> {
-  final APIService apiService = APIService();
-  dynamic memeData;
-  dynamic prevdata;
-  dynamic currdata;
-
-  void fetchDankMeme() {
-    apiService.fetchDankMeme().then((data) {
-      setState(() {
-        memeData = data;
-      });
-    }).catchError((e) {
-      const Text(
-        'I Donno man the MF jus went and died',
-        style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      );
-      print(e);
-    });
-  }
 
   @override
   void initState() {
+    final dankpro= Provider.of<Dankpro>(context,listen: false);
     super.initState();
-    fetchDankMeme();
-  }
-
-  void prevmeme()
-  {
-    setState(() {
-      currdata=memeData;
-      memeData=prevdata;
-    });
-  }
-
-  void _sharememe()
-  {
-    Share.share(memeData['url']);
+    dankpro.fetchDankMeme();
   }
 
 
   @override
   Widget build(BuildContext context) {
+    final dankpro= Provider.of<Dankpro>(context,listen: false);
     return Scaffold(
       appBar: AppBar(
         titleTextStyle: const TextStyle(
@@ -69,50 +38,52 @@ class _Dankscreenstate extends State<Dankscreen> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: ListView(
-          //mainAxisAlignment: MainAxisAlignment.center,
-          padding: const EdgeInsets.all(10),
-          shrinkWrap: true,
-          children: [
-            if (memeData != null)
-              Column(
-                children: [
-                  Text(
-                    memeData['title'],
-                    style: const TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 20.0),
-
-                  InteractiveViewer(
-                    child: Image.network(memeData['url']),
-                  ),
-                  //Image.network(memeData['url']),
-
-                  const SizedBox(height: 10.0),
-                  Text('Author: ${memeData['author']}',
+        child: Consumer<Dankpro>(builder: (context, value, child) {
+          return ListView(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            padding: const EdgeInsets.all(10),
+            shrinkWrap: true,
+            children: [
+              if (value.memeData != null)
+                Column(
+                  children: [
+                    Text(
+                      value.memeData['title'],
                       style: const TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
                         color: Colors.white,
-                      )),
-                  const SizedBox(height: 60.0),
-                ],
-              ),
-            // ElevatedButton(
-            //   style: ElevatedButton.styleFrom(
-            //       side: BorderSide(
-            //         width: 4,
-            //         color: Theme.of(context).colorScheme.primary,
-            //       ), //border width and color
-            //       elevation: 5, //elevation of button
-            //       padding: const EdgeInsets.all(15)),
-            //   onPressed: fetchRandomMeme,
-            //   child: const Text('More Content Plis'),
-            // ),
-          ],
-        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20.0),
+        
+                    InteractiveViewer(
+                      child: Image.network(value.memeData['url']),
+                    ),
+                    //Image.network(dankpro.memeData['url']),
+        
+                    const SizedBox(height: 10.0),
+                    Text('Author: ${value.memeData['author']}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                        )),
+                    const SizedBox(height: 60.0),
+                  ],
+                ),
+              // ElevatedButton(
+              //   style: ElevatedButton.styleFrom(
+              //       side: BorderSide(
+              //         width: 4,
+              //         color: Theme.of(context).colorScheme.primary,
+              //       ), //border width and color
+              //       elevation: 5, //elevation of button
+              //       padding: const EdgeInsets.all(15)),
+              //   onPressed: fetchRandomMeme,
+              //   child: const Text('More Content Plis'),
+              // ),
+            ],
+          );
+        },),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     floatingActionButton: Row(
@@ -120,7 +91,7 @@ class _Dankscreenstate extends State<Dankscreen> {
       children: [
         FloatingActionButton(
       onPressed: () {
-        prevmeme();
+        dankpro.prevmeme();
       },
       heroTag: 'prv',
       elevation: 2,
@@ -130,17 +101,7 @@ class _Dankscreenstate extends State<Dankscreen> {
 
         FloatingActionButton(
       onPressed: () {
-        if(memeData==prevdata&&memeData!=currdata)
-        {
-          setState(() {
-            memeData=currdata;
-          });
-        }
-        else
-        {
-        prevdata=memeData;
-        fetchDankMeme();
-        }
+        dankpro.nextmeme();
       },
       heroTag: 'nxt',
       elevation: 2,
@@ -150,7 +111,7 @@ class _Dankscreenstate extends State<Dankscreen> {
 
     FloatingActionButton(
       onPressed: (){
-          downloadFile(memeData['url'], memeData['author']);
+          downloadFile(dankpro.memeData['url'], dankpro.memeData['author']);
           Fluttertoast.showToast(
                 msg: 'File Downloading',
                 toastLength: Toast.LENGTH_SHORT,
@@ -163,7 +124,7 @@ class _Dankscreenstate extends State<Dankscreen> {
       ),
       FloatingActionButton(
             onPressed: (){
-          _sharememe();
+          Share.share(dankpro.memeData['url']);
       },
       heroTag: 'shr',
       elevation: 2,

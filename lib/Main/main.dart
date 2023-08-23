@@ -1,12 +1,15 @@
-import 'package:codememe/Provider/myproviders.dart';
 import 'package:provider/provider.dart';
-
 import 'dank.dart';
 import 'hindi.dart';
 import 'entersubred.dart';
 import 'package:flutter/material.dart';
-import 'api_service.dart';
 import 'home.dart';
+import 'package:codememe/Providers/myproviders.dart';
+import 'package:codememe/Providers/randompro.dart';
+import 'package:codememe/Providers/hindipro.dart';
+import 'package:codememe/Providers/easterpro.dart';
+import 'package:codememe/Providers/dankpro.dart';
+import 'package:codememe/Providers/custompro.dart';
 
 void main() async {
   //WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +29,11 @@ class MyApp extends StatelessWidget {
         providers:[
           ChangeNotifierProvider(create: (_)=> Countprovider()),
           ChangeNotifierProvider(create: (_)=> Indexprovider()),
-          ChangeNotifierProvider(create: (_)=> Memeprovider())
+          ChangeNotifierProvider(create: (_)=> Randompro()),
+          ChangeNotifierProvider(create: (_)=> Hindipro()),
+          ChangeNotifierProvider(create: (_)=> Easterpro()),
+          ChangeNotifierProvider(create: (_)=> Dankpro()),
+          ChangeNotifierProvider(create: (_)=> Custompro()),
         ],
       child: MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -55,8 +62,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final APIService apiService = APIService();
-  dynamic memeData;
 
   // int _selectedIndex = 0;
 

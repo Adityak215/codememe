@@ -1,4 +1,4 @@
-import 'package:codememe/Provider/myproviders.dart';
+import 'package:codememe/Providers/myproviders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +7,7 @@ import 'downbadmf.dart';
 import 'rick.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:codememe/Providers/randompro.dart';
 //import 'dowloadinterface.dart';
 
 
@@ -46,9 +47,9 @@ class _Mainscreenstate extends State<Mainscreen> {
 
   @override
   void initState() {
-    final memeprovider= Provider.of<Memeprovider>(context, listen:false);
+    final randomprov= Provider.of<Randompro>(context, listen:false);
     super.initState();
-    memeprovider.fetchRandomMeme();
+    randomprov.fetchRandomMeme();
   }
 
   // int value.count=0;
@@ -61,7 +62,7 @@ class _Mainscreenstate extends State<Mainscreen> {
 
   @override
   Widget build(BuildContext context) {
-    final memeprovider= Provider.of<Memeprovider>(context, listen:false);
+    final randomprov= Provider.of<Randompro>(context, listen:false);
     print('wholeassthing built again');
     return Scaffold(
       appBar: AppBar(
@@ -128,7 +129,7 @@ class _Mainscreenstate extends State<Mainscreen> {
         )
       ),
       body: Center(
-        child: Consumer<Memeprovider>(builder: (context, value, child) {
+        child: Consumer<Randompro>(builder: (context, value, child) {
           return ListView(
             //mainAxisAlignment: MainAxisAlignment.center,
             padding: const EdgeInsets.all(10),
@@ -181,7 +182,7 @@ class _Mainscreenstate extends State<Mainscreen> {
       children: [
         FloatingActionButton(
       onPressed: () {
-        memeprovider.prevmeme();
+        randomprov.prevmeme();
       },
       heroTag: 'prv',
       elevation: 2,
@@ -191,7 +192,7 @@ class _Mainscreenstate extends State<Mainscreen> {
 
       FloatingActionButton(
       onPressed: () {
-          memeprovider.nextmeme();
+          randomprov.nextmeme();
         },
       heroTag: 'nxt',
       elevation: 2,
@@ -201,7 +202,7 @@ class _Mainscreenstate extends State<Mainscreen> {
 
       FloatingActionButton(
       onPressed: (){
-          downloadFile(memeprovider.memeData['url'], memeprovider.memeData['author']);
+          downloadFile(randomprov.memeData['url'], randomprov.memeData['author']);
           Fluttertoast.showToast(
                 msg: 'File Downloading',
                 toastLength: Toast.LENGTH_SHORT,
@@ -215,7 +216,7 @@ class _Mainscreenstate extends State<Mainscreen> {
         ),
       FloatingActionButton(
             onPressed: (){
-          Share.share(memeprovider.memeData['url']);
+          Share.share(randomprov.memeData['url']);
       },
       heroTag: 'shr',
       elevation: 2,

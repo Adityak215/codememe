@@ -1,7 +1,10 @@
+import 'package:provider/provider.dart';
+
 import 'easteregg.dart';
 import 'package:flutter/material.dart';
 import 'custom_sub.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:codememe/Providers/myproviders.dart';
 
 class Enterscreen extends StatefulWidget {
   const Enterscreen({super.key});
@@ -14,20 +17,14 @@ class _Enterscreenstate extends State<Enterscreen> {
 
   final cust= TextEditingController();
   bool egg=false;
-  int _counter = 0;
 
   final _control=PageController(
     initialPage: 0,
   );
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
   
   @override
   void initState(){
+    
     super.initState();
     egg=false;
   }
@@ -39,17 +36,8 @@ class _Enterscreenstate extends State<Enterscreen> {
 
   @override
   Widget build(BuildContext context) {
-    // if(_counter>18)
-    // {
-    //   return PageView(
-    //     controller: _control,
-    //     scrollDirection: Axis.vertical,
-    //     children: const [
-    //       Enterscreen(),
-    //       Easterscreen(title: 'Congratulations, Enjoy you Slut'),
-    //     ],
-    //   );
-    // }
+   
+    final countpro=Provider.of<Countprovider>(context,listen: false);
     return Scaffold(
       appBar: AppBar(
           title: Row(
@@ -59,35 +47,35 @@ class _Enterscreenstate extends State<Enterscreen> {
               const Spacer(),
               TextButton(
                 onPressed: (){
-                  _incrementCounter();
-                  if(_counter<6)
+                  countpro.increcount();
+                  if(countpro.count<6)
                   {Fluttertoast.showToast(
-                    msg: '$_counter',
+                    msg: countpro.count.toString(),
                     toastLength: Toast.LENGTH_SHORT,
                   );
                   }
-                  else if(_counter>=6&&_counter<10)
+                  else if(countpro.count>=6&&countpro.count<10)
                   {
                     Fluttertoast.showToast(
                       msg: 'What are you trying huh?',
                       toastLength: Toast.LENGTH_SHORT,
                       );
                   }
-                  else if(_counter>=10&&_counter<14)
+                  else if(countpro.count>=10&&countpro.count<14)
                   {
                     Fluttertoast.showToast(
                       msg: 'Ugh, fine you found a button, Move on!',
                       toastLength: Toast.LENGTH_SHORT,
                       );
                   }
-                  else if(_counter>=14&&_counter<18)
+                  else if(countpro.count>=14&&countpro.count<18)
                   {
                     Fluttertoast.showToast(
                       msg: 'Um, Why are you not looking at Memes?',
                       toastLength: Toast.LENGTH_SHORT,
                       );
                   }
-                  else if(_counter>=18&&_counter<20)
+                  else if(countpro.count>=18&&countpro.count<20)
                   {
                     Fluttertoast.showToast(
                       msg: 'Good now SmartAss?',
@@ -160,21 +148,22 @@ class _Enterscreenstate extends State<Enterscreen> {
         ),
               ),
 
-            Visibility(
-                visible: _counter>18,
-                child: TextButton(
-                  onPressed: () {
-                  Navigator.push(context,
-                    MaterialPageRoute(
-                        builder: (context) => const Easterscreen(
-                              title: 'Have Fun you Horny Slut',
-                            )),
-                        );
-                      },
-                  child: const Text('Alright You brat'),
-                  )
-
-              ),
+            Consumer<Countprovider>(builder: (context, value, child) {
+              return Visibility(
+                  visible: value.count>18,
+                  child: TextButton(
+                    onPressed: () {
+                    Navigator.push(context,
+                      MaterialPageRoute(
+                          builder: (context) => const Easterscreen(
+                                title: 'Have Fun you Horny Slut',
+                              )),
+                          );
+                        },
+                    child: const Text('Alright You brat'),
+                    )
+                  );
+              },),
             ]
           )
         )

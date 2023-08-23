@@ -1,5 +1,6 @@
+import 'package:codememe/Providers/easterpro.dart';
 import 'package:flutter/material.dart';
-import 'api_service.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'downbadmf.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -14,51 +15,17 @@ class Easterscreen extends StatefulWidget {
 }
 
 class _Easterscreenstate extends State<Easterscreen> {
-  final APIService apiService = APIService();
-  dynamic memeData;
-  dynamic prevdata;
-  dynamic currdata;
-
-  void fetcheasterMeme() {
-    apiService.fetcheasterMeme().then((data) {
-      setState(() {
-        memeData = data;
-      });
-    }).catchError((e) {
-      const Text(
-        'I Donno man the MF jus went and died',
-        style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      );
-      print(e);
-    });
-  }
 
   @override
   void initState() {
+    final easterpro= Provider.of<Easterpro>(context, listen: false);
     super.initState();
-    fetcheasterMeme();
+    easterpro.fetcheasterMeme();
   }
-
-  void prevmeme()
-  {
-    setState(() {
-      currdata=memeData;
-      memeData=prevdata;
-    });
-  }
-
-  void _sharememe()
-  {
-    Share.share(memeData['url']);
-  }
-
 
   @override
   Widget build(BuildContext context) {
+    final easterpro= Provider.of<Easterpro>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         titleTextStyle: const TextStyle(
@@ -69,50 +36,52 @@ class _Easterscreenstate extends State<Easterscreen> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: ListView(
-          //mainAxisAlignment: MainAxisAlignment.center,
-          padding: const EdgeInsets.all(10),
-          shrinkWrap: true,
-          children: [
-            if (memeData != null)
-              Column(
-                children: [
-                  Text(
-                    memeData['title'],
-                    style: const TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 20.0),
-
-                  InteractiveViewer(
-                    child: Image.network(memeData['url']),
-                  ),
-                  //Image.network(memeData['url']),
-
-                  const SizedBox(height: 10.0),
-                  Text('Author: ${memeData['author']}',
+        child: Consumer<Easterpro>(builder: (context, value, child) {
+          return ListView(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            padding: const EdgeInsets.all(10),
+            shrinkWrap: true,
+            children: [
+              if (value.memeData != null)
+                Column(
+                  children: [
+                    Text(
+                      value.memeData['title'],
                       style: const TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
                         color: Colors.white,
-                      )),
-                  const SizedBox(height: 60.0),
-                ],
-              ),
-            // ElevatedButton(
-            //   style: ElevatedButton.styleFrom(
-            //       side: BorderSide(
-            //         width: 4,
-            //         color: Theme.of(context).colorScheme.primary,
-            //       ), //border width and color
-            //       elevation: 5, //elevation of button
-            //       padding: const EdgeInsets.all(15)),
-            //   onPressed: fetchRandomMeme,
-            //   child: const Text('More Content Plis'),
-            // ),
-          ],
-        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20.0),
+        
+                    InteractiveViewer(
+                      child: Image.network(value.memeData['url']),
+                    ),
+                    //Image.network(easterpro.memeData['url']),
+        
+                    const SizedBox(height: 10.0),
+                    Text('Author: ${value.memeData['author']}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                        )),
+                    const SizedBox(height: 60.0),
+                  ],
+                ),
+              // ElevatedButton(
+              //   style: ElevatedButton.styleFrom(
+              //       side: BorderSide(
+              //         width: 4,
+              //         color: Theme.of(context).colorScheme.primary,
+              //       ), //border width and color
+              //       elevation: 5, //elevation of button
+              //       padding: const EdgeInsets.all(15)),
+              //   onPressed: fetchRandomMeme,
+              //   child: const Text('More Content Plis'),
+              // ),
+            ],
+          );
+        },),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     floatingActionButton: Row(
@@ -120,7 +89,7 @@ class _Easterscreenstate extends State<Easterscreen> {
       children: [
         FloatingActionButton(
       onPressed: () {
-        prevmeme();
+        easterpro.prevmeme();
       },
       heroTag: 'prv',
       elevation: 2,
@@ -130,17 +99,7 @@ class _Easterscreenstate extends State<Easterscreen> {
 
         FloatingActionButton(
       onPressed: () {
-        if(memeData==prevdata&&memeData!=currdata)
-        {
-          setState(() {
-            memeData=currdata;
-          });
-        }
-        else
-        {
-        prevdata=memeData;
-        fetcheasterMeme();
-        }
+        easterpro.nextmeme();
       },
       heroTag: 'nxt',
       elevation: 2,
@@ -150,7 +109,7 @@ class _Easterscreenstate extends State<Easterscreen> {
 
     FloatingActionButton(
       onPressed: (){
-          downloadFile(memeData['url'], memeData['author']);
+          downloadFile(easterpro.memeData['url'], easterpro.memeData['author']);
           Fluttertoast.showToast(
                 msg: 'File Downloading',
                 toastLength: Toast.LENGTH_SHORT,
@@ -163,7 +122,7 @@ class _Easterscreenstate extends State<Easterscreen> {
       ),
       FloatingActionButton(
             onPressed: (){
-          _sharememe();
+          Share.share(easterpro.memeData['url']);
       },
       heroTag: 'shr',
       elevation: 2,
