@@ -7,7 +7,6 @@ import 'entersubred.dart';
 import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'home.dart';
-import 'package:path_provider/path_provider.dart';
 
 void main() async {
   //WidgetsFlutterBinding.ensureInitialized();
@@ -79,38 +78,40 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final indexprovider= Provider.of<Indexprovider>(context, listen:false); 
-    return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(indexprovider.selectedindex),
-      ),
-
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: indexprovider.selectedindex,
-        type: BottomNavigationBarType.shifting,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.emoji_emotions_rounded),
-            label: 'Dank',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.handshake),
-            label: 'Hindi Memes',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.find_in_page_rounded),
-            label: 'Custom Sub',
-          ),
-        ],
-        selectedItemColor: Theme.of(context).colorScheme.inversePrimary,
-        onTap: (index) {
-          indexprovider.setindex(index);
-        },
-      ),
-    );
+     
+    return Consumer<Indexprovider>(builder: (context, value, child) {
+        return Scaffold(
+        body: Center(
+          child: _widgetOptions.elementAt(value.selectedindex),
+        ),
+    
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: value.selectedindex,
+          type: BottomNavigationBarType.shifting,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.emoji_emotions_rounded),
+              label: 'Dank',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.handshake),
+              label: 'Hindi Memes',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.find_in_page_rounded),
+              label: 'Custom Sub',
+            ),
+          ],
+          selectedItemColor: Theme.of(context).colorScheme.inversePrimary,
+          onTap: (index) {
+            value.setindex(index);
+          },
+        ),
+      );
+    },);
   }
 }
