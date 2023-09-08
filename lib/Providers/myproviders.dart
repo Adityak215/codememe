@@ -24,4 +24,22 @@ class Indexprovider with ChangeNotifier
   }
 }
 
+class Boolprovider with ChangeNotifier
+{
+  bool _ispageend = false;
+  bool _ispagetop = true;
+
+  bool get ispageend =>_ispageend;
+  bool get ispagetop => _ispagetop;
+
+  void setendboo(bool boo)
+  {
+    _ispageend=boo;
+  }
+
+  void settopboo(boo)
+  {
+    _ispagetop=boo;
+  }
+}
 

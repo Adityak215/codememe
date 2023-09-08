@@ -12,10 +12,6 @@ import 'package:codememe/Providers/dankpro.dart';
 import 'package:codememe/Providers/custompro.dart';
 
 void main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
-  //await FlutterDownloader.initialize(debug: true);
-  //await Permission.storage.request();
-
   runApp(const MyApp());
 }
 
@@ -34,6 +30,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_)=> Easterpro()),
           ChangeNotifierProvider(create: (_)=> Dankpro()),
           ChangeNotifierProvider(create: (_)=> Custompro()),
+          ChangeNotifierProvider(create: (_)=> Boolprovider()),
         ],
       child: MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -62,14 +59,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  // int _selectedIndex = 0;
-
-  // void _onItemTapped(int index) {
-  //   setState(() {
-  //     _selectedIndex = index;
-  //   });
-  // }
 
 
   static const List<Widget> _widgetOptions = <Widget>[
