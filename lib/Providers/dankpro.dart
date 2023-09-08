@@ -43,6 +43,8 @@ class Dankpro with ChangeNotifier
   {
     if(memeData==prevdata)
     {}
+    else if(prevdata==null)
+    {}
     else
     {
     currdata=memeData;
