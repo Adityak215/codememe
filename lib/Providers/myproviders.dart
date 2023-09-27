@@ -10,6 +10,10 @@ class Countprovider with ChangeNotifier
     _count++;
     notifyListeners();
   }
+  void reset()
+  {
+    _count=0;
+  }
 }
 
 class Indexprovider with ChangeNotifier

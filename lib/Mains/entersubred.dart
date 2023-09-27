@@ -1,5 +1,5 @@
 import 'package:provider/provider.dart';
-
+import 'customclip.dart';
 import 'easteregg.dart';
 import 'package:flutter/material.dart';
 import 'custom_sub.dart';
@@ -24,7 +24,8 @@ class _Enterscreenstate extends State<Enterscreen> {
   
   @override
   void initState(){
-    
+    final countpro=Provider.of<Countprovider>(context,listen: false);
+    countpro.reset();
     super.initState();
     egg=false;
   }
@@ -99,73 +100,109 @@ class _Enterscreenstate extends State<Enterscreen> {
         // title: const Text('Enter Meme Subreddit'),
       ),
 
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-           
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child: TextFormField(
-                controller: cust,
-                style: const TextStyle(color: Colors.deepOrange),
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.email),
-                  hintText: 'Enter Your Subreddit to see memes',
-                  labelText: "MemeReddit",
-                ),
+      body: SingleChildScrollView(
+          child: Stack(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+               ClipPath(
+              clipper: DefaultClipEnd(), // Use the custom clipper
+              child: Container(
+                height: 600, // Make the curved section fill the screen height
+                //color: const Color.fromARGB(255, 129, 80, 160), // Color of the curved section
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.black, Colors.deepOrange, Colors.black], // Define the colors for the gradient
+                    ),
+                  ),
+              ),
+            ),
+            ClipPath(
+              clipper: DefaultClipPath(), // Use the custom clipper
+              child: Container(
+                height: 400, // Make the curved section fill the screen height
+                color: (Colors.black), // Color of the curved section
+                
               ),
             ),
 
-            Padding(
-              padding: const EdgeInsets.all(25),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(context,
-                    MaterialPageRoute(
-                        builder: (context) => Customscreen(
-                              title: 'Your OWN Meme Subreddit',
-                              cust: cust.text,
-                            )),
-                  );
-                },
-                child: Text(
-                  'Ted, just.. okay. just... Submit',
-                  style: TextStyle(
-                      fontSize: 18.0, color: Theme.of(context).colorScheme.primary,),
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: 275,),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    child: TextFormField(
+                      controller: cust,
+                      style: const TextStyle(color: Colors.deepOrange),
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.email),
+                        hintText: 'Enter Your Subreddit to see memes',
+                        labelText: "MemeReddit",
+                        hintStyle: TextStyle(
+                          color: Colors.black
+                        ),
+                        prefixIconColor: Colors.black,
+                        labelStyle: TextStyle(
+                          color: Colors.black
+                        ),
+                      ),
+                    ),
+                  ),
+        
+                  Padding(
+                    padding: const EdgeInsets.all(25),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                          MaterialPageRoute(
+                              builder: (context) => Customscreen(
+                                    title: 'Your OWN Meme Subreddit',
+                                    cust: cust.text,
+                                  )),
+                        );
+                      },
+                      child: Text(
+                        'Ted, just.. okay. just... Submit',
+                        style: TextStyle(
+                            fontSize: 18.0, color: Theme.of(context).colorScheme.primary,),
+                      ),
+                    ),
+                  ),
+        
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    child:ElevatedButton(
+            child: const Text('Alert - Read this'),
+            onPressed: () {
+                  _alertdialog(context);
+            },
+          ),
+                    ),
+        
+                  Consumer<Countprovider>(builder: (context, value, child) {
+                    return Visibility(
+                        visible: value.count>18,
+                        child: TextButton(
+                          onPressed: () {
+                          Navigator.push(context,
+                            MaterialPageRoute(
+                                builder: (context) => const Easterscreen(
+                                      title: 'Have Fun you Horny Slut',
+                                    )),
+                                );
+                              },
+                          child: const Text('Alright You brat'),
+                          )
+                        );
+                    },),
+                ],
               ),
+              ]
             ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-              child:ElevatedButton(
-          child: const Text('Alert - Read this'),
-          onPressed: () {
-            _alertdialog(context);
-          },
-        ),
-              ),
-
-            Consumer<Countprovider>(builder: (context, value, child) {
-              return Visibility(
-                  visible: value.count>18,
-                  child: TextButton(
-                    onPressed: () {
-                    Navigator.push(context,
-                      MaterialPageRoute(
-                          builder: (context) => const Easterscreen(
-                                title: 'Have Fun you Horny Slut',
-                              )),
-                          );
-                        },
-                    child: const Text('Alright You brat'),
-                    )
-                  );
-              },),
-            ]
-          )
         )
 
       );
@@ -177,7 +214,7 @@ void _alertdialog(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return AlertDialog(
+      return AlertDialog(  
                 backgroundColor: Colors.white,
                 title: const Text('Check Capslock, Spelling and Whitespace'),
                 content: const Text('Wrong Subreddit will not load anything'),

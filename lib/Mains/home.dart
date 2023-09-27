@@ -25,7 +25,9 @@ class _Mainscreenstate extends State<Mainscreen> {
   @override
   void initState() {
     final randomprov= Provider.of<Randompro>(context, listen:false);
+    final countpro= Provider.of<Countprovider>(context, listen:false);
     super.initState();
+    countpro.reset();
     randomprov.fetchRandomMeme();
   }
 
