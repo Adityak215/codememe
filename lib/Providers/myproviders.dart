@@ -5,7 +5,7 @@ class Countprovider with ChangeNotifier
   int _count = 0;
   int get count => _count;
 
-  increcount()
+  void increcount()
   {
     _count++;
     notifyListeners();
